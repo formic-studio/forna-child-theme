@@ -67,7 +67,8 @@ forna-child-theme/
 │   ├── css/
 │   │   ├── accessibility.css
 │   │   ├── forna-page.css
-│   │   └── main.css
+│   │   ├── main.css
+│   │   └── responsive.css
 │   └── ts/
 │       ├── components/
 │       │   ├── example-disclosure.ts

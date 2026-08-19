@@ -4,10 +4,6 @@ body {
   background: #e9ad3c;
 }
 
-html {
-  scroll-behavior: auto !important;
-}
-
 [data-animation='list'] li {
   position: relative;
   border-top: 0;

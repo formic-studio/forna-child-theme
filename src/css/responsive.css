@@ -1,0 +1,84 @@
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
+:root {
+  --font-from: 18;
+  --font-to: 20;
+  --vw-from: calc(2560 / 100);
+  --vw-to: calc(3201 / 100);
+  --coefficient: calc((var(--font-to) - var(--font-from)) / (var(--vw-to) - var(--vw-from)));
+  --base: calc((var(--font-from) - var(--vw-from) * var(--coefficient)) / 16);
+}
+
+html {
+  font-size: calc(var(--base) * 1rem + var(--coefficient) * 1vw);
+}
+
+@media screen and (max-width: 2560px) {
+  :root {
+    --font-from: 16;
+    --font-to: 18;
+    --vw-from: calc(1919 / 100);
+    --vw-to: calc(2560 / 100);
+  }
+}
+
+@media screen and (max-width: 1919px) {
+  :root {
+    --font-from: 16;
+    --font-to: 16;
+    --vw-from: calc(1440 / 100);
+    --vw-to: calc(1919 / 100);
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  :root {
+    --font-from: 14;
+    --font-to: 16;
+    --vw-from: calc(1024 / 100);
+    --vw-to: calc(1440 / 100);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  :root {
+    --font-from: 14;
+    --font-to: 16;
+    --vw-from: calc(768 / 100);
+    --vw-to: calc(1024 / 100);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --font-from: 14;
+    --font-to: 16;
+    --vw-from: calc(479 / 100);
+    --vw-to: calc(768 / 100);
+  }
+}
+
+@media screen and (max-width: 479px) {
+  :root {
+    --font-from: 15;
+    --font-to: 16;
+    --vw-from: calc(360 / 100);
+    --vw-to: calc(479 / 100);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  :root {
+    --font-from: 12;
+    --font-to: 14;
+    --vw-from: calc(1 / 100);
+    --vw-to: calc(360 / 100);
+  }
+}
