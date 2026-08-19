@@ -1,6 +1,7 @@
 @import './accessibility.css';
 @import './responsive.css';
 @import './forna-page.css';
+@import './product.css';
 
 :root {
   --forna-focus-width: 2px;
