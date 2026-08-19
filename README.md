@@ -66,10 +66,12 @@ forna-child-theme/
 ├── src/
 │   ├── css/
 │   │   ├── accessibility.css
+│   │   ├── forna-page.css
 │   │   └── main.css
 │   └── ts/
 │       ├── components/
-│       │   └── example-disclosure.ts
+│       │   ├── example-disclosure.ts
+│       │   └── forna-page.ts
 │       ├── core/
 │       │   ├── bricks-events.ts
 │       │   ├── component-registry.ts
@@ -120,6 +122,41 @@ Przykładowy komponent wykorzystuje natywne, działające bez JS elementy:
 
 W Bricks zbuduj tę strukturę elementami HTML/Block i dodaj wskazane atrybuty. Nie wklejaj modułu do Code elementu. Bez JavaScriptu disclosure nadal działa dzięki natywnemu `<details>`.
 
+### Landing page Forna
+
+Dotychczasowy kod landing page został przeniesiony do komponentu `forna-page`. GSAP i ScrollTrigger są instalowane przez npm, dołączane do `dist/` i pobierane przez przeglądarkę dopiero po znalezieniu komponentu.
+
+Na sekcji Hero strony głównej ustaw w Bricks:
+
+- name: `data-component`
+- value: `forna-page`
+
+Ten atrybut jest znacznikiem aktywującym moduł. Komponent automatycznie obejmuje całe najbliższe `<main>` oraz nawigację z szablonu headera, więc nie trzeba przebudowywać drzewa sekcji pod dodatkowy wrapper.
+
+Następnie usuń ze wszystkich pól Custom Code i elementów Code:
+
+- oba skrypty CDN `gsap.min.js` oraz `ScrollTrigger.min.js`;
+- dotychczasowy inline `<script>` z animacjami;
+- powiązany inline `<style>`.
+
+Komponent zachowuje obecne klasy `.hero-img`, `.logo-svg`, `.nav`, `.section-about`, `.about-block`, `.info-block`, `.button-open`, `.button-close`, `.button-size` i `.animation-size`. Dodatkowe konwencje:
+
+| Funkcja             | Atrybut                          |
+| ------------------- | -------------------------------- |
+| Nagłówek hero       | `data-animation="text-heading"`  |
+| Kolor sekcji        | `data-color="#wartosc"`          |
+| Divider             | `data-animation="divider"`       |
+| Tekst info          | `data-animation="text"`          |
+| Lista info          | `data-animation="list"`          |
+| Reveal zdania       | `data-animation="text-sentence"` |
+| Mobilny slider      | `data-slider="mobile"`           |
+| Strzałka następna   | `data-arrow="next"`              |
+| Strzałka poprzednia | `data-arrow="previous"`          |
+
+Przejściowo obsługiwane są także wcześniejsze literówki `taxt-heading`, `preview` oraz ID `slider_mobile`. W nowych elementach używaj poprawnych atrybutów z tabeli.
+
+Przy `prefers-reduced-motion: reduce` animacje GSAP nie są uruchamiane, ale panele, wybór rozmiaru i slider pozostają funkcjonalne. Treść oraz zdjęcia są domyślnie widoczne bez JavaScriptu.
+
 ## Bricks AJAX
 
 Rejestr wykonuje skan po gotowości DOM. Obserwuje również dodawane i usuwane węzły oraz jawnie reaguje na `bricks/ajax/nodes_added`, używane m.in. przez infinite scroll, Load More, paginację AJAX i Query Filters. Ten sam element oraz ten sam komponent nie zostaną zainicjalizowane drugi raz. Po usunięciu elementu wykonywany jest jego cleanup.
@@ -128,7 +165,7 @@ Runtime nie jest ładowany w głównym interfejsie buildera, zgodnie z `bricks_i
 
 ## CSS i WCAG 2.2 AA
 
-Starter zawiera wyłącznie techniczne zmienne, `.screen-reader-only`, widoczny `focus-visible`, bezpieczny `[hidden]`, obsługę reduced motion i regułę kursora dla disclosure. Nie narzuca brandingu ani animacji.
+Warstwa bazowa zawiera techniczne zmienne, `.screen-reader-only`, widoczny `focus-visible`, bezpieczny `[hidden]` i obsługę reduced motion. Style specyficzne dla aktualnego landing page są odseparowane w `src/css/forna-page.css`.
 
 Każdy nowy komponent musi:
 

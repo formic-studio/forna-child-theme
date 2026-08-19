@@ -11,6 +11,12 @@ registry.register({
   load: () => import('./components/example-disclosure'),
 });
 
+registry.register({
+  name: 'forna-page',
+  selector: '[data-component="forna-page"]',
+  load: () => import('./components/forna-page'),
+});
+
 function boot(): void {
   const stopRegistry = registry.start();
   const stopBricksListener = onBricksNodesAdded(() => {
