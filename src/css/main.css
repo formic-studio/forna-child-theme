@@ -1,0 +1,11 @@
+@import './accessibility.css';
+
+:root {
+  --forna-focus-width: 2px;
+  --forna-focus-offset: 3px;
+  --forna-z-skip-link: 100000;
+}
+
+[data-component='disclosure'] > summary {
+  cursor: pointer;
+}
