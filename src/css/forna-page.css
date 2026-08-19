@@ -4,6 +4,12 @@ body {
   background: #e9ad3c;
 }
 
+[data-component='forna-page'] .logo-svg {
+  --forna-logo-reveal-y: 0px;
+
+  translate: 0 var(--forna-logo-reveal-y);
+}
+
 [data-animation='list'] li {
   position: relative;
   border-top: 0;

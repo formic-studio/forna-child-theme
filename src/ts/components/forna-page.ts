@@ -77,9 +77,9 @@ function initializeHero(root: HTMLElement, media: gsap.MatchMedia): void {
       const isMobile = context.conditions?.isMobile === true;
       const timeline = gsap.timeline();
 
-      // Bricks centers the logo with translateX(-50%). Keep that percentage in
-      // GSAP's transform so it remains responsive after the entrance animation.
-      gsap.set(logo, { opacity: 0, xPercent: -50, y: 100 });
+      // Bricks owns the horizontal transform used to center the logo. Animate a
+      // separate CSS property so GSAP never converts translateX(-50%) to pixels.
+      gsap.set(logo, { '--forna-logo-reveal-y': '100px', opacity: 0 });
       gsap.set(navigation, { opacity: 0, top: -100 });
       gsap.set(heading, { filter: 'blur(20px)', opacity: 0 });
       gsap.set(heroImage, {
@@ -110,7 +110,16 @@ function initializeHero(root: HTMLElement, media: gsap.MatchMedia): void {
           .add(() => {
             restoreAttribute(heroImage, 'style', originalHeroStyle);
           })
-          .to(logo, { duration: 0.7, ease: 'power1.out', opacity: 1, xPercent: -50, y: 0 }, '+=0.1')
+          .to(
+            logo,
+            {
+              '--forna-logo-reveal-y': '0px',
+              duration: 0.7,
+              ease: 'power1.out',
+              opacity: 1,
+            },
+            '+=0.1',
+          )
           .to(navigation, { duration: 0.7, ease: 'power1.out', opacity: 1, top: 0 }, '-=0.4')
           .to(
             heading,
@@ -137,7 +146,16 @@ function initializeHero(root: HTMLElement, media: gsap.MatchMedia): void {
           .add(() => {
             restoreAttribute(heroImage, 'style', originalHeroStyle);
           })
-          .to(logo, { duration: 1.4, ease: 'power1.out', opacity: 1, xPercent: -50, y: 0 }, '-=0.4')
+          .to(
+            logo,
+            {
+              '--forna-logo-reveal-y': '0px',
+              duration: 1.4,
+              ease: 'power1.out',
+              opacity: 1,
+            },
+            '-=0.4',
+          )
           .to(navigation, { duration: 1.4, ease: 'power1.out', opacity: 1, top: 0 }, '-=1.2')
           .to(
             heading,
