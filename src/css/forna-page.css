@@ -1,7 +1,16 @@
+:root {
+  --forna-store-background: #fdf4e0;
+}
+
 body {
   min-height: 100dvh;
   padding-bottom: env(safe-area-inset-bottom, 0);
-  background: #e9ad3c;
+  background: var(--forna-store-background);
+}
+
+body.woocommerce :where(#brx-content, main),
+body.woocommerce-page :where(#brx-content, main) {
+  background-color: var(--forna-store-background);
 }
 
 [data-component='forna-page'] .logo-svg {

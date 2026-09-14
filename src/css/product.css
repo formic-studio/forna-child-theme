@@ -8,7 +8,7 @@
 
 .forna-product,
 .forna-product-details {
-  --forna-product-background: var(--Primary-color, #fff1cd);
+  --forna-product-background: var(--forna-store-background, #fdf4e0);
   --forna-product-foreground: var(--Secendary-color, #201106);
   --forna-product-border: rgb(32 17 6 / 22%);
   --forna-product-muted: rgb(32 17 6 / 68%);
