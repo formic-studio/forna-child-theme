@@ -164,6 +164,18 @@ Rejestr wykonuje skan po gotowości DOM. Obserwuje również dodawane i usuwane 
 
 Runtime nie jest ładowany w głównym interfejsie buildera, zgodnie z `bricks_is_builder_main()`. Jest dostępny na frontendzie i w canvasie. Jeśli przyszły moduł koliduje z canvasem, należy warunkować go na poziomie jego inicjalizatora zamiast wyłączać cały frontend dla odwiedzających.
 
+## Próbki wariantów produktu
+
+Komponent `product-variation-swatches` automatycznie wykrywa formularz produktu wariantowego WooCommerce przez atrybut `data-product_variations`. Standardowe listy wyboru pozostają źródłem danych formularza, a dostępne opcje są prezentowane jako dostępne z klawiatury, obrazkowe próbki. Zmiana próbki uruchamia natywną obsługę WooCommerce, więc nadal aktualizowane są identyfikator wariantu, cena, dostępność, zdjęcie i przycisk dodania do koszyka.
+
+Aktualna mapa odpowiada wspólnym atrybutom produktów Regla S, M i L:
+
+- `pa_veneer`: `jesion`, `olcha`, `sosna`;
+- `pa_cable`: `natural`, `twist`, `vertigo`;
+- `pa_canopy`: `biala`, `czarna`, `drewniana` oraz przygotowany przyszły wariant `mosiadz`.
+
+Nazwy widoczne pod próbkami są pobierane z opcji produktu w WooCommerce. Tekstury używają istniejących plików Biblioteki mediów z katalogu `wp-content/uploads/2025/12/`; po zmianie pliku lub sluga należy zaktualizować mapę `SWATCH_VISUALS` w komponencie.
+
 ## CSS i WCAG 2.2 AA
 
 Warstwa bazowa zawiera techniczne zmienne, `.screen-reader-only`, widoczny `focus-visible`, bezpieczny `[hidden]` i obsługę reduced motion. Style specyficzne dla aktualnego landing page są odseparowane w `src/css/forna-page.css`.

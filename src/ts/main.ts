@@ -17,6 +17,12 @@ registry.register({
   load: () => import('./components/forna-page'),
 });
 
+registry.register({
+  name: 'product-variation-swatches',
+  selector: '[data-product_variations]',
+  load: () => import('./components/product-variation-swatches'),
+});
+
 function boot(): void {
   const stopRegistry = registry.start();
   const stopBricksListener = onBricksNodesAdded(() => {
