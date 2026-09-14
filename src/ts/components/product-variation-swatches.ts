@@ -2,6 +2,12 @@ type Cleanup = () => void;
 
 type SwatchVisual = { kind: 'color'; value: string } | { kind: 'image'; value: string };
 
+type AttributePresentation = {
+  label: string;
+  optionLabels?: Readonly<Record<string, string>>;
+  optionOrder: readonly string[];
+};
+
 const UPLOADS_PATH = '/wp-content/uploads/2025/12/';
 
 const SWATCH_VISUALS: Readonly<Record<string, Readonly<Record<string, SwatchVisual>>>> = {
@@ -23,12 +29,49 @@ const SWATCH_VISUALS: Readonly<Record<string, Readonly<Record<string, SwatchVisu
   },
 };
 
+const ATTRIBUTE_PRESENTATION: Readonly<Record<string, AttributePresentation>> = {
+  pa_veneer: {
+    label: 'Wykończenie drewna',
+    optionOrder: ['olcha', 'sosna', 'jesion'],
+  },
+  pa_cable: {
+    label: 'Przewód',
+    optionLabels: { natural: 'Neutral' },
+    optionOrder: ['twist', 'natural', 'vertigo'],
+  },
+  pa_canopy: {
+    label: 'Podsufitka',
+    optionLabels: { drewniana: 'Drewno' },
+    optionOrder: ['biala', 'czarna', 'mosiadz', 'drewniana'],
+  },
+};
+
 function getAttributeSlug(select: HTMLSelectElement): string {
   return select.name.replace(/^attribute_/, '');
 }
 
-function getOptionLabel(option: HTMLOptionElement): string {
-  return option.textContent.trim() || option.value;
+function getOptionLabel(
+  option: HTMLOptionElement,
+  presentation: AttributePresentation | undefined,
+): string {
+  return presentation?.optionLabels?.[option.value] ?? (option.textContent.trim() || option.value);
+}
+
+function sortOptions(
+  options: HTMLOptionElement[],
+  presentation: AttributePresentation | undefined,
+): HTMLOptionElement[] {
+  if (!presentation) {
+    return options;
+  }
+
+  const order = new Map(presentation.optionOrder.map((value, index) => [value, index]));
+
+  return options.sort(
+    (left, right) =>
+      (order.get(left.value) ?? Number.MAX_SAFE_INTEGER) -
+      (order.get(right.value) ?? Number.MAX_SAFE_INTEGER),
+  );
 }
 
 function applyVisual(circle: HTMLSpanElement, visual: SwatchVisual | undefined): void {
@@ -52,13 +95,17 @@ function enhanceSelect(select: HTMLSelectElement): Cleanup | undefined {
 
   const cell = select.closest<HTMLElement>('td.value, td');
   const row = select.closest<HTMLElement>('tr');
-  const options = Array.from(select.options).filter((option) => option.value !== '');
+  const attributeSlug = getAttributeSlug(select);
+  const presentation = ATTRIBUTE_PRESENTATION[attributeSlug];
+  const options = sortOptions(
+    Array.from(select.options).filter((option) => option.value !== ''),
+    presentation,
+  );
 
   if (!cell || !row || options.length === 0) {
     return undefined;
   }
 
-  const attributeSlug = getAttributeSlug(select);
   const visuals = SWATCH_VISUALS[attributeSlug];
   const list = document.createElement('div');
   const buttons = new Map<string, HTMLButtonElement>();
@@ -67,14 +114,19 @@ function enhanceSelect(select: HTMLSelectElement): Cleanup | undefined {
   list.setAttribute('role', 'group');
 
   const rowLabel = row.querySelector<HTMLElement>('th label, th');
-  const rowLabelText = rowLabel?.textContent.trim();
+  const originalRowLabel = rowLabel?.textContent ?? '';
+  const rowLabelText = presentation?.label ?? originalRowLabel.trim();
+
+  if (rowLabel && presentation) {
+    rowLabel.textContent = presentation.label;
+  }
 
   if (rowLabelText) {
     list.setAttribute('aria-label', rowLabelText);
   }
 
   for (const option of options) {
-    const label = getOptionLabel(option);
+    const label = getOptionLabel(option, presentation);
     const button = document.createElement('button');
     const circle = document.createElement('span');
     const text = document.createElement('span');
@@ -165,6 +217,10 @@ function enhanceSelect(select: HTMLSelectElement): Cleanup | undefined {
     select.classList.remove('forna-variation-select--enhanced');
     delete select.dataset.fornaSwatchesEnhanced;
 
+    if (rowLabel && presentation) {
+      rowLabel.textContent = originalRowLabel;
+    }
+
     if (originalTabIndex === null) {
       select.removeAttribute('tabindex');
     } else {
@@ -184,9 +240,33 @@ export default function initialize(form: HTMLElement): Cleanup | undefined {
     return undefined;
   }
 
-  const cleanups = Array.from(
+  const selects = Array.from(
     form.querySelectorAll<HTMLSelectElement>('select[name^="attribute_"]'),
-  )
+  );
+  const rows = selects
+    .map((select) => select.closest<HTMLTableRowElement>('tr'))
+    .filter((row): row is HTMLTableRowElement => row !== null);
+  const originalRows = [...rows];
+  const rowParent = rows[0]?.parentElement;
+
+  if (rowParent) {
+    [...rows]
+      .sort((left, right) => {
+        const leftSelect = left.querySelector<HTMLSelectElement>('select[name^="attribute_"]');
+        const rightSelect = right.querySelector<HTMLSelectElement>('select[name^="attribute_"]');
+        const attributeOrder = ['pa_veneer', 'pa_cable', 'pa_canopy'];
+
+        return (
+          attributeOrder.indexOf(leftSelect ? getAttributeSlug(leftSelect) : '') -
+          attributeOrder.indexOf(rightSelect ? getAttributeSlug(rightSelect) : '')
+        );
+      })
+      .forEach((row) => {
+        rowParent.append(row);
+      });
+  }
+
+  const cleanups = selects
     .map(enhanceSelect)
     .filter((cleanup): cleanup is Cleanup => cleanup !== undefined);
 
@@ -200,6 +280,13 @@ export default function initialize(form: HTMLElement): Cleanup | undefined {
     cleanups.forEach((cleanup) => {
       cleanup();
     });
+
+    if (rowParent) {
+      originalRows.forEach((row) => {
+        rowParent.append(row);
+      });
+    }
+
     form.classList.remove('forna-variations--enhanced');
   };
 }
