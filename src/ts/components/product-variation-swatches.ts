@@ -3,6 +3,7 @@ type Cleanup = () => void;
 type SwatchVisual = { kind: 'color'; value: string } | { kind: 'image'; value: string };
 
 type AttributePresentation = {
+  defaultValue: string;
   label: string;
   optionLabels?: Readonly<Record<string, string>>;
   optionOrder: readonly string[];
@@ -31,15 +32,18 @@ const SWATCH_VISUALS: Readonly<Record<string, Readonly<Record<string, SwatchVisu
 
 const ATTRIBUTE_PRESENTATION: Readonly<Record<string, AttributePresentation>> = {
   pa_veneer: {
+    defaultValue: 'olcha',
     label: 'Wykończenie drewna',
     optionOrder: ['olcha', 'sosna', 'jesion'],
   },
   pa_cable: {
+    defaultValue: 'twist',
     label: 'Przewód',
     optionLabels: { natural: 'Neutral' },
     optionOrder: ['twist', 'natural', 'vertigo'],
   },
   pa_canopy: {
+    defaultValue: 'biala',
     label: 'Podsufitka',
     optionLabels: { drewniana: 'Drewno' },
     optionOrder: ['biala', 'czarna', 'mosiadz', 'drewniana'],
@@ -243,6 +247,7 @@ export default function initialize(form: HTMLElement): Cleanup | undefined {
   const selects = Array.from(
     form.querySelectorAll<HTMLSelectElement>('select[name^="attribute_"]'),
   );
+  const initialValues = new Map(selects.map((select) => [select, select.value]));
   const rows = selects
     .map((select) => select.closest<HTMLTableRowElement>('tr'))
     .filter((row): row is HTMLTableRowElement => row !== null);
@@ -276,6 +281,20 @@ export default function initialize(form: HTMLElement): Cleanup | undefined {
 
   form.classList.add('forna-variations--enhanced');
 
+  selects.forEach((select) => {
+    const presentation = ATTRIBUTE_PRESENTATION[getAttributeSlug(select)];
+    const defaultOption = presentation
+      ? Array.from(select.options).find((option) => option.value === presentation.defaultValue)
+      : undefined;
+
+    if (select.value || !defaultOption || defaultOption.disabled) {
+      return;
+    }
+
+    select.value = defaultOption.value;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+
   return (): void => {
     cleanups.forEach((cleanup) => {
       cleanup();
@@ -286,6 +305,11 @@ export default function initialize(form: HTMLElement): Cleanup | undefined {
         rowParent.append(row);
       });
     }
+
+    initialValues.forEach((value, select) => {
+      select.value = value;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
 
     form.classList.remove('forna-variations--enhanced');
   };
