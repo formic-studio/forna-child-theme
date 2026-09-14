@@ -1,0 +1,416 @@
+/*
+ * Shared WooCommerce views: archive, cart, checkout, payment and account.
+ * Bricks keeps rendering native Woo elements; this layer only unifies layout
+ * and presentation with the Forna single-product card.
+ */
+
+.forna-shop-view {
+  --forna-shop-foreground: var(--Secendary-color, #201106);
+  --forna-shop-border: rgb(32 17 6 / 20%);
+  --forna-shop-muted: rgb(32 17 6 / 66%);
+  --forna-shop-radius: 0.7rem;
+
+  padding-block: clamp(2rem, 4vw, 4rem);
+  background-color: var(--forna-store-background, #fdf4e0);
+  color: var(--forna-shop-foreground);
+}
+
+.forna-shop-view + .forna-shop-view {
+  padding-top: 0;
+}
+
+.forna-shop-shell {
+  width: min(100% - 2rem, 90rem);
+  max-width: none;
+  margin-inline: auto;
+}
+
+.forna-shop-view :where(h1, h2, h3, h4) {
+  color: inherit;
+}
+
+.forna-shop-view :where(a) {
+  color: inherit;
+}
+
+.forna-shop-view :where(input:not([type='checkbox'], [type='radio']), select, textarea) {
+  min-height: 3rem;
+  border: 1px solid var(--forna-shop-border);
+  border-radius: 0.25rem;
+  outline-offset: 0.2rem;
+  background: transparent;
+  color: inherit;
+}
+
+.forna-shop-view textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.forna-shop-view :where(.button, button, [type='submit']) {
+  min-height: 3rem;
+  padding: 0.75rem 1.2rem;
+  border: 1px solid var(--forna-shop-foreground);
+  border-radius: 0.25rem;
+  background-color: var(--forna-shop-foreground);
+  color: var(--forna-store-background, #fdf4e0);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.forna-shop-view :where(.button, button, [type='submit']):is(:hover, :focus-visible) {
+  background-color: transparent;
+  color: var(--forna-shop-foreground);
+}
+
+.forna-shop-view :where(.woocommerce-message, .woocommerce-info, .woocommerce-error) {
+  margin: 0 0 1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid currentColor;
+  border-radius: var(--forna-shop-radius);
+  background: transparent;
+  color: inherit;
+}
+
+.forna-shop-view :where(table.shop_table, table.woocommerce-table, table.account-orders-table) {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--forna-shop-border);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--forna-shop-radius);
+  background: transparent;
+}
+
+.forna-shop-view
+  :where(table.shop_table, table.woocommerce-table, table.account-orders-table)
+  :where(th, td) {
+  padding: 0.9rem 1rem;
+  border: 0;
+  border-bottom: 1px solid var(--forna-shop-border);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.forna-shop-view
+  :where(table.shop_table, table.woocommerce-table, table.account-orders-table)
+  tr:last-child
+  :where(th, td) {
+  border-bottom: 0;
+}
+
+/* Product archive */
+.forna-shop-view--archive-hero {
+  padding-bottom: clamp(1rem, 2vw, 2rem);
+}
+
+.forna-shop-archive__intro {
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.65rem;
+}
+
+.forna-shop-archive__title {
+  margin: 0;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.forna-shop-archive__breadcrumbs {
+  order: -1;
+  color: var(--forna-shop-muted);
+  font-size: 0.82rem;
+}
+
+.forna-shop-archive__description {
+  max-width: 48rem;
+  color: var(--forna-shop-muted);
+}
+
+.forna-shop-archive__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.75rem;
+  border-block: 1px solid var(--forna-shop-border);
+}
+
+.forna-shop-archive__toolbar :where(p, form) {
+  margin: 0;
+}
+
+.forna-shop-archive__toolbar select {
+  min-width: 13rem;
+}
+
+.forna-shop-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.forna-shop-product-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.8rem;
+  overflow: hidden;
+  border: 1px solid var(--forna-shop-border);
+  border-radius: var(--forna-shop-radius);
+  background: transparent;
+}
+
+.forna-shop-product-card__image {
+  width: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--forna-shop-radius) - 0.2rem);
+  aspect-ratio: 1 / 1.05;
+}
+
+.forna-shop-product-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 220ms ease;
+}
+
+.forna-shop-product-card:hover .forna-shop-product-card__image img {
+  transform: scale(1.025);
+}
+
+.forna-shop-product-card__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.forna-shop-product-card__price {
+  color: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.forna-shop-product-card__rating:empty {
+  display: none;
+}
+
+.forna-shop-product-card__badge {
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: var(--forna-store-background, #fdf4e0);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.forna-shop-product-card__action :where(.button, button) {
+  width: 100%;
+}
+
+.forna-shop-pagination {
+  width: 100%;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* Cart and checkout */
+.forna-shop-cart-items,
+.forna-shop-cart-summary,
+.forna-shop-checkout__details,
+.forna-shop-checkout__review,
+.forna-shop-panel,
+.forna-shop-auth-card {
+  padding: clamp(1rem, 2.5vw, 2rem);
+  border: 1px solid var(--forna-shop-border);
+  border-radius: var(--forna-shop-radius);
+  background: transparent;
+}
+
+.forna-shop-cart-layout,
+.forna-shop-checkout-grid,
+.forna-shop-auth-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.forna-shop-cart-items .product-thumbnail img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: contain;
+}
+
+.forna-shop-cart-items .quantity {
+  display: inline-flex;
+  width: auto;
+}
+
+.forna-shop-cart-items .qty {
+  width: 4rem;
+  text-align: center;
+}
+
+.forna-shop-cart-summary :where(.cart_totals, .wc-proceed-to-checkout),
+.forna-shop-cart-summary .checkout-button {
+  width: 100%;
+}
+
+.forna-shop-checkout__review {
+  position: sticky;
+  top: 1rem;
+}
+
+.forna-shop-view .woocommerce-checkout-payment,
+.forna-shop-view #payment {
+  border: 1px solid var(--forna-shop-border);
+  border-radius: var(--forna-shop-radius);
+  background: transparent;
+}
+
+.forna-shop-view #payment :where(.payment_box, ul.payment_methods) {
+  background: transparent;
+}
+
+.forna-shop-view #place_order {
+  width: 100%;
+}
+
+/* Account, authentication and order states */
+.forna-shop-account-content,
+.forna-shop-state {
+  width: min(100%, 58rem);
+}
+
+.forna-shop-account-content :where(form, fieldset),
+.forna-shop-auth-card :where(form, fieldset) {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.forna-shop-view :where(.form-row, .woocommerce-form-row) {
+  margin: 0 0 0.85rem;
+}
+
+.forna-shop-view :where(.form-row, .woocommerce-form-row) label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.forna-shop-view :where(.form-row, .woocommerce-form-row) :where(input, select, textarea) {
+  width: 100%;
+}
+
+.forna-shop-auth-card {
+  height: 100%;
+}
+
+.forna-shop-auth-card > h2 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+body.woocommerce-account .woocommerce-MyAccount-navigation ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+body.woocommerce-account .woocommerce-MyAccount-navigation a {
+  display: inline-flex;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid rgb(32 17 6 / 20%);
+  border-radius: 999px;
+  color: inherit;
+  text-decoration: none;
+}
+
+body.woocommerce-account .woocommerce-MyAccount-navigation .is-active a {
+  background: var(--Secendary-color, #201106);
+  color: var(--forna-store-background, #fdf4e0);
+}
+
+.forna-shop-empty {
+  text-align: center;
+}
+
+.forna-shop-empty__message {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.forna-shop-state {
+  gap: 0.75rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid var(--forna-shop-border);
+  border-radius: var(--forna-shop-radius);
+}
+
+@media (max-width: 991px) {
+  .forna-shop-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .forna-shop-cart-layout,
+  .forna-shop-checkout-grid,
+  .forna-shop-auth-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .forna-shop-checkout__review {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .forna-shop-shell {
+    width: min(100% - 1.25rem, 90rem);
+  }
+
+  .forna-shop-archive__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .forna-shop-archive__toolbar select,
+  .forna-shop-product-grid {
+    width: 100%;
+  }
+
+  .forna-shop-product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .forna-shop-view :where(table.shop_table, table.woocommerce-table, table.account-orders-table) {
+    font-size: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forna-shop-product-card__image img {
+    transition: none;
+  }
+}
