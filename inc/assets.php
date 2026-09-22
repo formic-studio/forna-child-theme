@@ -14,10 +14,24 @@ const MAIN_STYLE_PATH   = 'dist/assets/main.css';
 const MAIN_SCRIPT_PATH  = 'dist/assets/main.js';
 
 /**
+ * Determine whether the current request renders a WooCommerce storefront view.
+ *
+ * BricksWooWizard templates should retain their native Bricks/WooCommerce
+ * presentation without any CSS or JavaScript supplied by the child theme.
+ */
+function is_woocommerce_storefront_view(): bool {
+	if ( ! function_exists( '\\is_woocommerce' ) ) {
+		return false;
+	}
+
+	return \is_woocommerce() || \is_cart() || \is_checkout() || \is_account_page();
+}
+
+/**
  * Enqueue built assets when their files exist.
  */
 function enqueue_assets(): void {
-	if ( is_bricks_builder_main() ) {
+	if ( is_bricks_builder_main() || is_woocommerce_storefront_view() ) {
 		return;
 	}
 
