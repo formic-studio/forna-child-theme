@@ -49,14 +49,24 @@ function render_regla_product_alternatives(): void {
 	echo '<ul class="products columns-2">';
 
 	foreach ( $alternatives as $alternative ) {
-		$link  = $alternative->get_permalink();
-		$title = $alternative->get_name();
-		$price = $alternative->get_price_html();
+		$link              = $alternative->get_permalink();
+		$title             = $alternative->get_name();
+		$price             = $alternative->get_price_html();
+		$short_description = wp_trim_words(
+			wp_strip_all_tags( $alternative->get_short_description() ),
+			18,
+			'…'
+		);
 
 		echo '<li class="product forna-product-size-card">';
 		echo '<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="' . esc_url( $link ) . '">';
 		echo wp_kses_post( $alternative->get_image( 'woocommerce_thumbnail', array( 'loading' => 'lazy' ) ) );
 		echo '<h2 class="woocommerce-loop-product__title">' . esc_html( $title ) . '</h2>';
+
+		if ( '' !== $short_description ) {
+			echo '<p class="forna-product-size-card__description">' . esc_html( $short_description ) . '</p>';
+		}
+
 		echo '<span class="price">' . wp_kses_post( $price ) . '</span>';
 		echo '</a>';
 		echo '</li>';
