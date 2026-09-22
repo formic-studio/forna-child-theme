@@ -33,12 +33,12 @@ const SWATCH_VISUALS: Readonly<Record<string, Readonly<Record<string, SwatchVisu
 const ATTRIBUTE_PRESENTATION: Readonly<Record<string, AttributePresentation>> = {
   pa_veneer: {
     defaultValue: 'olcha',
-    label: 'Wykończenie drewna',
+    label: 'Fornir',
     optionOrder: ['olcha', 'sosna', 'jesion'],
   },
   pa_cable: {
     defaultValue: 'twist',
-    label: 'Przewód',
+    label: 'Kabel',
     optionLabels: { natural: 'Neutral' },
     optionOrder: ['twist', 'natural', 'vertigo'],
   },
@@ -259,7 +259,7 @@ export default function initialize(form: HTMLElement): Cleanup | undefined {
       .sort((left, right) => {
         const leftSelect = left.querySelector<HTMLSelectElement>('select[name^="attribute_"]');
         const rightSelect = right.querySelector<HTMLSelectElement>('select[name^="attribute_"]');
-        const attributeOrder = ['pa_veneer', 'pa_cable', 'pa_canopy'];
+        const attributeOrder = ['pa_veneer', 'pa_canopy', 'pa_cable'];
 
         return (
           attributeOrder.indexOf(leftSelect ? getAttributeSlug(leftSelect) : '') -

@@ -31,11 +31,13 @@ function is_woocommerce_storefront_view(): bool {
  * Enqueue built assets when their files exist.
  */
 function enqueue_assets(): void {
-	if ( is_bricks_builder_main() || is_woocommerce_storefront_view() ) {
+	$is_product_view = function_exists( '\\is_product' ) && \is_product();
+
+	if ( is_bricks_builder_main() || ( is_woocommerce_storefront_view() && ! $is_product_view ) ) {
 		return;
 	}
 
-	if ( file_exists( asset_path( MAIN_STYLE_PATH ) ) ) {
+	if ( ! $is_product_view && file_exists( asset_path( MAIN_STYLE_PATH ) ) ) {
 		wp_enqueue_style(
 			MAIN_ASSET_HANDLE,
 			asset_uri( MAIN_STYLE_PATH ),
