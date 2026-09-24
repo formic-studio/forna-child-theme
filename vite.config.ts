@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
       input: {
         cart: 'src/css/cart.css',
         checkout: 'src/css/checkout.css',
+        commerce: 'src/css/commerce.css',
         main: 'src/ts/main.ts',
       },
       output: {

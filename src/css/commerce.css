@@ -1,0 +1,134 @@
+/* Shared Forna controls for native WooCommerce cart and checkout views. */
+
+body:is(.woocommerce-cart, .woocommerce-checkout) {
+  --forna-commerce-accent: #b9300b;
+  --forna-commerce-accent-dark: #551e04;
+  --forna-commerce-border: rgb(185 48 11 / 50%);
+  --forna-commerce-button-background: rgb(195 126 15 / 25%);
+  --forna-commerce-button-border: rgb(255 241 205 / 50%);
+  --forna-commerce-field-background: rgb(80 35 22 / 50%);
+  --forna-commerce-line: rgb(255 241 205 / 35%);
+  --forna-commerce-muted: rgb(255 241 205 / 68%);
+  --forna-commerce-surface: rgb(80 35 22 / 28%);
+  --forna-commerce-text: var(--Primary-color, #fff1cd);
+}
+
+body.woocommerce-cart .woocommerce .coupon #coupon_code,
+body.woocommerce-checkout
+  .woocommerce
+  :is(
+    input.input-text:not([type='checkbox'], [type='radio'], [type='hidden']),
+    select,
+    textarea.input-text,
+    .select2-selection
+  ) {
+  box-sizing: border-box;
+  min-height: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--forna-commerce-border);
+  border-radius: 6px;
+  outline: none;
+  background-color: var(--forna-commerce-field-background);
+  box-shadow: none;
+  color: var(--forna-commerce-text);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.52px;
+}
+
+body.woocommerce-checkout .woocommerce .select2-selection {
+  display: flex;
+  align-items: center;
+}
+
+body.woocommerce-checkout .woocommerce .select2-selection__rendered {
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout .woocommerce .select2-selection__arrow b {
+  border-top-color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout .woocommerce select option {
+  background-color: var(--Secendary-color, #201106);
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-cart .woocommerce .coupon #coupon_code::placeholder,
+body.woocommerce-checkout .woocommerce :is(input.input-text, textarea.input-text)::placeholder {
+  color: var(--forna-commerce-text);
+  opacity: 0.68;
+}
+
+body.woocommerce-cart .woocommerce .coupon #coupon_code:focus-visible,
+body.woocommerce-checkout
+  .woocommerce
+  :is(input.input-text, select, textarea.input-text, .select2-selection):focus-visible {
+  border-color: var(--forna-commerce-accent);
+  outline: 1px solid var(--forna-commerce-text);
+  outline-offset: 2px;
+}
+
+body.woocommerce-checkout .woocommerce input.input-text:-webkit-autofill {
+  box-shadow: 0 0 0 1000px var(--forna-commerce-accent-dark) inset;
+  -webkit-text-fill-color: var(--forna-commerce-text);
+  caret-color: var(--forna-commerce-text);
+}
+
+body:is(.woocommerce-cart, .woocommerce-checkout)
+  .woocommerce
+  :is(a.button, button.button, input.button, a.brxe-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 8px 24px;
+  border: 1px solid var(--forna-commerce-button-border);
+  border-radius: 24px;
+  background-color: var(--forna-commerce-button-background);
+  box-shadow: none;
+  color: var(--forna-commerce-text);
+  font: inherit;
+  font-size: var(--Caption, 0.8125rem);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.52px;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+body:is(.woocommerce-cart, .woocommerce-checkout)
+  .woocommerce
+  :is(a.button, button.button, input.button, a.brxe-button):is(:hover, :focus-visible):not(
+    :disabled,
+    .disabled
+  ) {
+  border-color: var(--forna-commerce-border);
+  background-color: var(--forna-commerce-button-background);
+  color: var(--forna-commerce-text);
+}
+
+body:is(.woocommerce-cart, .woocommerce-checkout)
+  .woocommerce
+  :is(a.button, button.button, input.button, a.brxe-button):is(:disabled, .disabled) {
+  border-color: var(--forna-commerce-button-border);
+  background-color: var(--forna-commerce-button-background);
+  color: var(--forna-commerce-text);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:is(.woocommerce-cart, .woocommerce-checkout)
+    .woocommerce
+    :is(a.button, button.button, input.button, a.brxe-button) {
+    transition: none;
+  }
+}

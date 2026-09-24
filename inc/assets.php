@@ -14,6 +14,7 @@ const MAIN_STYLE_PATH     = 'dist/assets/main.css';
 const MAIN_SCRIPT_PATH    = 'dist/assets/main.js';
 const CART_STYLE_PATH     = 'dist/assets/cart.css';
 const CHECKOUT_STYLE_PATH = 'dist/assets/checkout.css';
+const COMMERCE_STYLE_PATH = 'dist/assets/commerce.css';
 
 /**
  * Determine whether the current request renders a WooCommerce storefront view.
@@ -41,12 +42,24 @@ function enqueue_assets(): void {
 		return;
 	}
 
+	if (
+		( $is_cart_view || $is_checkout_view ) &&
+		file_exists( asset_path( COMMERCE_STYLE_PATH ) )
+	) {
+		wp_enqueue_style(
+			MAIN_ASSET_HANDLE . '-commerce',
+			asset_uri( COMMERCE_STYLE_PATH ),
+			array( 'bricks-woocommerce' ),
+			asset_version( COMMERCE_STYLE_PATH )
+		);
+	}
+
 	if ( $is_cart_view ) {
 		if ( file_exists( asset_path( CART_STYLE_PATH ) ) ) {
 			wp_enqueue_style(
 				MAIN_ASSET_HANDLE . '-cart',
 				asset_uri( CART_STYLE_PATH ),
-				array( 'bricks-woocommerce' ),
+				array( MAIN_ASSET_HANDLE . '-commerce' ),
 				asset_version( CART_STYLE_PATH )
 			);
 		}
@@ -59,7 +72,7 @@ function enqueue_assets(): void {
 			wp_enqueue_style(
 				MAIN_ASSET_HANDLE . '-checkout',
 				asset_uri( CHECKOUT_STYLE_PATH ),
-				array( 'bricks-woocommerce' ),
+				array( MAIN_ASSET_HANDLE . '-commerce' ),
 				asset_version( CHECKOUT_STYLE_PATH )
 			);
 		}

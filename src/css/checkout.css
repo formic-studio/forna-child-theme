@@ -1,7 +1,152 @@
-/* Checkout layout additions scoped to the native WooCommerce view. */
+/* Checkout layout and view-specific WooCommerce surfaces. */
 
 body.woocommerce-checkout #brx-content > .brxe-section > .padding-global > .brxe-container {
   width: 100%;
   max-width: 1920px;
   margin-inline: auto;
+}
+
+body.woocommerce-checkout .woocommerce-checkout :where(h3) {
+  margin-bottom: 1rem;
+}
+
+body.woocommerce-checkout .woocommerce-checkout :where(.optional) {
+  color: var(--forna-commerce-muted);
+  font-weight: 400;
+}
+
+body.woocommerce-checkout .woocommerce-checkout .required {
+  color: var(--forna-commerce-accent);
+}
+
+body.woocommerce-checkout .woocommerce-checkout .form-row {
+  margin-bottom: 1rem;
+}
+
+body.woocommerce-checkout
+  .woocommerce-checkout
+  .woocommerce-invalid
+  :is(input.input-text, select, textarea.input-text, .select2-selection) {
+  border-color: var(--forna-commerce-accent);
+}
+
+body.woocommerce-checkout .woocommerce-checkout :is(input[type='checkbox'], input[type='radio']) {
+  accent-color: var(--forna-commerce-accent);
+  color-scheme: dark;
+}
+
+body.woocommerce-checkout .woocommerce-checkout #ship-to-different-address > label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+body.woocommerce-checkout .woocommerce-checkout #ship-to-different-address input[type='checkbox'] {
+  position: static;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  transform: none;
+  order: 2;
+}
+
+body.woocommerce-checkout .woocommerce-checkout-review-order-table {
+  overflow: hidden;
+  border-color: var(--forna-commerce-line);
+  border-radius: 6px;
+  background: transparent;
+}
+
+body.woocommerce-checkout
+  .woocommerce-checkout-review-order-table
+  :is(thead, tbody, tfoot, th, td) {
+  border-color: var(--forna-commerce-line);
+  background: transparent;
+  color: inherit;
+}
+
+body.woocommerce-checkout .brxe-woocommerce-checkout-coupon .coupon-div {
+  border: 1px solid var(--forna-commerce-border);
+  border-radius: 6px;
+  background-color: var(--forna-commerce-surface);
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout .brxe-woocommerce-checkout-coupon .coupon-description {
+  margin: 0;
+  color: var(--forna-commerce-muted);
+}
+
+body.woocommerce-checkout .brxe-woocommerce-checkout-coupon .coupon-form > .input-text {
+  min-width: 0;
+  flex: 1;
+}
+
+body.woocommerce-checkout .woocommerce-checkout #payment {
+  border-color: var(--forna-commerce-line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout .woocommerce-checkout #payment :where(.payment_methods, .place-order) {
+  background: transparent;
+}
+
+body.woocommerce-checkout .woocommerce-checkout #payment .woocommerce-info,
+body.woocommerce-checkout
+  .woocommerce-notices-wrapper
+  :is(.woocommerce-info, .woocommerce-message, .woocommerce-error) {
+  margin: 0;
+  border: 1px solid var(--forna-commerce-border);
+  border-radius: 6px;
+  background-color: var(--forna-commerce-surface);
+  color: var(--forna-commerce-text);
+  line-height: 1.5;
+}
+
+body.woocommerce-checkout .woocommerce-notices-wrapper .woocommerce-error {
+  border-color: var(--forna-commerce-accent);
+}
+
+body.woocommerce-checkout .woocommerce-checkout #payment .payment_box {
+  border: 1px solid var(--forna-commerce-border);
+  border-radius: 6px;
+  background-color: var(--forna-commerce-surface);
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout .woocommerce-checkout #payment .payment_methods .payment_box::before {
+  display: none;
+}
+
+body.woocommerce-checkout .woocommerce-checkout #place_order {
+  width: 100%;
+}
+
+body.woocommerce-checkout .select2-dropdown {
+  border-color: var(--forna-commerce-border);
+  background-color: var(--Secendary-color, #201106);
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout .select2-search__field {
+  border: 1px solid var(--forna-commerce-border);
+  border-radius: 6px;
+  background-color: var(--forna-commerce-field-background);
+  color: var(--forna-commerce-text);
+}
+
+body.woocommerce-checkout
+  .select2-container--default
+  .select2-results__option--highlighted[aria-selected] {
+  background-color: var(--forna-commerce-accent-dark);
+  color: var(--forna-commerce-text);
+}
+
+@media (max-width: 767px) {
+  body.woocommerce-checkout .brxe-woocommerce-checkout-coupon .coupon-form {
+    align-items: stretch;
+  }
 }
