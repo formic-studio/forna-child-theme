@@ -11,6 +11,24 @@ body.woocommerce-cart {
   --forna-cart-button-color: var(--Primary-color, #fff1cd);
 }
 
+body.woocommerce-cart .woocommerce .coupon #coupon_code {
+  min-height: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(185 48 11 / 50%);
+  border-radius: 6px;
+  background-color: rgb(80 35 22 / 50%);
+  color: var(--forna-cart-button-color);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.52px;
+}
+
+body.woocommerce-cart .woocommerce .coupon #coupon_code::placeholder {
+  color: var(--forna-cart-button-color);
+  opacity: 1;
+}
+
 body.woocommerce-cart .woocommerce :is(a.button, button.button, input.button, a.brxe-button) {
   display: inline-flex;
   align-items: center;
