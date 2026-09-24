@@ -11,6 +11,12 @@ body.woocommerce-cart {
   --forna-cart-button-color: var(--Primary-color, #fff1cd);
 }
 
+body.woocommerce-cart #brx-content > .brxe-section > .brxe-container {
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+}
+
 body.woocommerce-cart .woocommerce .coupon #coupon_code {
   min-height: 0;
   padding: 8px 10px;
