@@ -35,6 +35,10 @@ body.woocommerce-cart .woocommerce .coupon #coupon_code::placeholder {
   opacity: 1;
 }
 
+body.woocommerce-cart form.woocommerce-cart-form .quantity :is(.minus, .plus):hover svg {
+  stroke: #b9300b;
+}
+
 body.woocommerce-cart .woocommerce :is(a.button, button.button, input.button, a.brxe-button) {
   display: inline-flex;
   align-items: center;
