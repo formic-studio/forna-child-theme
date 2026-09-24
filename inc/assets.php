@@ -12,12 +12,13 @@ defined( 'ABSPATH' ) || exit;
 const MAIN_ASSET_HANDLE = 'forna-child-theme';
 const MAIN_STYLE_PATH   = 'dist/assets/main.css';
 const MAIN_SCRIPT_PATH  = 'dist/assets/main.js';
+const CART_STYLE_PATH   = 'dist/assets/cart.css';
 
 /**
  * Determine whether the current request renders a WooCommerce storefront view.
  *
- * BricksWooWizard templates should retain their native Bricks/WooCommerce
- * presentation without any CSS or JavaScript supplied by the child theme.
+ * Most BricksWooWizard templates retain their native Bricks/WooCommerce
+ * presentation. Individual views may opt into a dedicated, scoped asset.
  */
 function is_woocommerce_storefront_view(): bool {
 	if ( ! function_exists( '\\is_woocommerce' ) ) {
@@ -32,8 +33,26 @@ function is_woocommerce_storefront_view(): bool {
  */
 function enqueue_assets(): void {
 	$is_product_view = function_exists( '\\is_product' ) && \is_product();
+	$is_cart_view    = function_exists( '\\is_cart' ) && \is_cart();
 
-	if ( is_bricks_builder_main() || ( is_woocommerce_storefront_view() && ! $is_product_view ) ) {
+	if ( is_bricks_builder_main() ) {
+		return;
+	}
+
+	if ( $is_cart_view ) {
+		if ( file_exists( asset_path( CART_STYLE_PATH ) ) ) {
+			wp_enqueue_style(
+				MAIN_ASSET_HANDLE . '-cart',
+				asset_uri( CART_STYLE_PATH ),
+				array( 'bricks-woocommerce' ),
+				asset_version( CART_STYLE_PATH )
+			);
+		}
+
+		return;
+	}
+
+	if ( is_woocommerce_storefront_view() && ! $is_product_view ) {
 		return;
 	}
 

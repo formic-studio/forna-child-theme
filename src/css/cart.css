@@ -1,0 +1,65 @@
+/*
+ * Cart actions use the same translucent pill treatment as the primary CTA
+ * on the Forna landing page. The rules stay scoped to native WooCommerce
+ * controls so footer and navigation actions retain their Bricks styling.
+ */
+
+body.woocommerce-cart {
+  --forna-cart-button-background: rgb(195 126 15 / 25%);
+  --forna-cart-button-border: rgb(255 241 205 / 50%);
+  --forna-cart-button-border-hover: rgb(185 48 11 / 50%);
+  --forna-cart-button-color: var(--Primary-color, #fff1cd);
+}
+
+body.woocommerce-cart .woocommerce :is(a.button, button.button, input.button, a.brxe-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 8px 24px;
+  border: 1px solid var(--forna-cart-button-border);
+  border-radius: 24px;
+  background-color: var(--forna-cart-button-background);
+  box-shadow: none;
+  color: var(--forna-cart-button-color);
+  font: inherit;
+  font-size: var(--Caption, 0.8125rem);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.52px;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+body.woocommerce-cart
+  .woocommerce
+  :is(a.button, button.button, input.button, a.brxe-button):is(:hover, :focus-visible):not(
+    :disabled,
+    .disabled
+  ) {
+  border-color: var(--forna-cart-button-border-hover);
+  background-color: var(--forna-cart-button-background);
+  color: var(--forna-cart-button-color);
+}
+
+body.woocommerce-cart
+  .woocommerce
+  :is(a.button, button.button, input.button, a.brxe-button):is(:disabled, .disabled) {
+  border-color: var(--forna-cart-button-border);
+  background-color: var(--forna-cart-button-background);
+  color: var(--forna-cart-button-color);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.woocommerce-cart .woocommerce :is(a.button, button.button, input.button, a.brxe-button) {
+    transition: none;
+  }
+}

@@ -8,14 +8,17 @@ export default defineConfig(({ mode }) => ({
     minify: mode === 'production' ? 'oxc' : false,
     outDir: 'dist',
     rollupOptions: {
-      input: 'src/ts/main.ts',
+      input: {
+        cart: 'src/css/cart.css',
+        main: 'src/ts/main.ts',
+      },
       output: {
         assetFileNames: (assetInfo) =>
           assetInfo.names.some((name) => name.endsWith('.css'))
-            ? 'assets/main.css'
+            ? 'assets/[name][extname]'
             : 'assets/[name]-[hash][extname]',
         chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/main.js',
+        entryFileNames: 'assets/[name].js',
       },
     },
     sourcemap: mode === 'development',
