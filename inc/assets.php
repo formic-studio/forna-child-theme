@@ -9,10 +9,11 @@ namespace FornaChildTheme;
 
 defined( 'ABSPATH' ) || exit;
 
-const MAIN_ASSET_HANDLE = 'forna-child-theme';
-const MAIN_STYLE_PATH   = 'dist/assets/main.css';
-const MAIN_SCRIPT_PATH  = 'dist/assets/main.js';
-const CART_STYLE_PATH   = 'dist/assets/cart.css';
+const MAIN_ASSET_HANDLE   = 'forna-child-theme';
+const MAIN_STYLE_PATH     = 'dist/assets/main.css';
+const MAIN_SCRIPT_PATH    = 'dist/assets/main.js';
+const CART_STYLE_PATH     = 'dist/assets/cart.css';
+const CHECKOUT_STYLE_PATH = 'dist/assets/checkout.css';
 
 /**
  * Determine whether the current request renders a WooCommerce storefront view.
@@ -32,8 +33,9 @@ function is_woocommerce_storefront_view(): bool {
  * Enqueue built assets when their files exist.
  */
 function enqueue_assets(): void {
-	$is_product_view = function_exists( '\\is_product' ) && \is_product();
-	$is_cart_view    = function_exists( '\\is_cart' ) && \is_cart();
+	$is_product_view  = function_exists( '\\is_product' ) && \is_product();
+	$is_cart_view     = function_exists( '\\is_cart' ) && \is_cart();
+	$is_checkout_view = function_exists( '\\is_checkout' ) && \is_checkout();
 
 	if ( is_bricks_builder_main() ) {
 		return;
@@ -46,6 +48,19 @@ function enqueue_assets(): void {
 				asset_uri( CART_STYLE_PATH ),
 				array( 'bricks-woocommerce' ),
 				asset_version( CART_STYLE_PATH )
+			);
+		}
+
+		return;
+	}
+
+	if ( $is_checkout_view ) {
+		if ( file_exists( asset_path( CHECKOUT_STYLE_PATH ) ) ) {
+			wp_enqueue_style(
+				MAIN_ASSET_HANDLE . '-checkout',
+				asset_uri( CHECKOUT_STYLE_PATH ),
+				array( 'bricks-woocommerce' ),
+				asset_version( CHECKOUT_STYLE_PATH )
 			);
 		}
 

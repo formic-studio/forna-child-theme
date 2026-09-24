@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: {
         cart: 'src/css/cart.css',
+        checkout: 'src/css/checkout.css',
         main: 'src/ts/main.ts',
       },
       output: {
